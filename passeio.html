@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Passeio 360° · Doce Nuvem Sorveteria</title>
+<meta name="description" content="Passeie pela Doce Nuvem Sorveteria como num vídeo: ande para frente, para trás e para os lados." />
+<meta name="theme-color" content="#0e4650" />
+<link rel="icon" href="./favicon.svg" />
+<link rel="apple-touch-icon" href="./logo-192.png" />
+<style>@font-face{font-family:Bagel Fat One;src:url(bagel-fat-one-latin-400.woff2)format("woff2");font-display:swap}:root{--amarelo:#ffc12e;--teal:#17807c;--petroleo:#0e4650;--creme:#fff4dc}*{box-sizing:border-box}html,body{background:var(--petroleo);height:100%;color:var(--creme);-webkit-user-select:none;user-select:none;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}canvas.cena{touch-action:none;cursor:grab;width:100%;height:100%;display:block;position:fixed;inset:0}canvas.cena:active{cursor:grabbing}.vinheta{pointer-events:none;z-index:2;background:radial-gradient(#0000 55%,#061e248c 100%);position:fixed;inset:0}.faixa{z-index:3;pointer-events:none;background:#071f25;height:0;transition:height .6s cubic-bezier(.22,1,.36,1);position:fixed;left:0;right:0}.faixa--cima{top:0}.faixa--baixo{bottom:0}body.anda .faixa{height:5vh}.topo{z-index:10;padding:max(12px, env(safe-area-inset-top)) 14px 0;pointer-events:none;justify-content:space-between;align-items:center;gap:10px;display:flex;position:fixed;top:0;left:0;right:0}.topo>*{pointer-events:auto}.marca{color:var(--creme);background:var(--teal);border-radius:99px;align-items:center;gap:10px;padding:6px 16px 6px 6px;text-decoration:none;display:flex;box-shadow:0 8px 20px #00000047}.marca img{object-fit:contain;width:46px;height:46px}.marca b{font-family:Bagel Fat One,system-ui;font-size:20px;font-weight:400;line-height:1;display:block}.marca small{letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-top:3px;font-size:11px;display:block}.bt{cursor:pointer;background:var(--amarelo);min-height:44px;color:var(--petroleo);-webkit-tap-highlight-color:transparent;border:0;border-radius:99px;justify-content:center;align-items:center;gap:8px;padding:0 16px;font:800 14px system-ui,sans-serif;text-decoration:none;transition:transform .2s cubic-bezier(.34,1.56,.64,1);display:inline-flex;box-shadow:0 8px 20px #00000047}.bt--creme{background:var(--creme)}.bt svg{fill:currentColor;width:18px;height:18px}.bt:active{transform:scale(.94)}@media (hover:hover) and (pointer:fine){.bt:hover{transform:translateY(-2px)rotate(-2deg)}}:focus-visible{outline:3px solid var(--amarelo);outline-offset:3px}.acoes{gap:8px;display:flex}.legenda{z-index:6;text-align:center;pointer-events:none;position:fixed;top:86px;left:50%;transform:translate(-50%)}.legenda b{color:var(--creme);text-shadow:0 3px 0 var(--petroleo), 0 8px 22px #00000073;font-family:Bagel Fat One,system-ui;font-size:clamp(24px,4vw,40px);font-weight:400;line-height:1;display:block}.legenda span{background:#0e4650bf;border-radius:99px;margin-top:8px;padding:5px 12px;font-size:13px;font-weight:700;display:inline-block}.legenda.troca b{animation:.7s cubic-bezier(.34,1.56,.64,1) entra}@keyframes entra{0%{opacity:0;transform:translateY(14px)scale(.9)}}.mapa{z-index:6;background:#0e4650d1;border:2px solid #fff4dc59;border-radius:18px;width:150px;height:170px;position:fixed;top:78px;right:14px;box-shadow:0 8px 20px #00000047}.mapa svg{width:100%;height:100%;display:block}.mapa .no{fill:var(--creme);cursor:pointer}.mapa .no.ativo{fill:var(--amarelo)}.mapa .lig{stroke:#fff4dc59;stroke-width:2px;stroke-dasharray:3 4}.mapa .cone{fill:#ffc12e73}.mapa text{fill:var(--creme);font:800 8px system-ui}.controles{z-index:10;padding:0 14px max(14px, env(safe-area-inset-bottom));pointer-events:none;flex-direction:column;align-items:center;gap:12px;display:flex;position:fixed;bottom:0;left:0;right:0}.controles>*{pointer-events:auto}.dpad{grid-template-rows:repeat(3,64px);grid-template-columns:repeat(3,64px);gap:6px;display:grid}.dpad button{background:var(--creme);color:var(--petroleo);cursor:pointer;-webkit-tap-highlight-color:transparent;border:0;border-radius:22px;place-items:center;transition:transform .2s cubic-bezier(.34,1.56,.64,1),opacity .3s,background .2s;display:grid;box-shadow:0 8px 18px #0000004d}.dpad button svg{fill:currentColor;width:30px;height:30px}.dpad button:active{transform:scale(.9)}.dpad button.pode{background:var(--amarelo)}.dpad button.nao{opacity:.55}.dpad .fr{grid-area:1/2}.dpad .es{grid-area:2/1}.dpad .di{grid-area:2/3}.dpad .tr{grid-area:3/2}.dpad .gE{grid-area:1/1}.dpad .gD{grid-area:1/3}.dpad .gE,.dpad .gD{background:#fff4dcd9;border-radius:50%;width:48px;height:48px;margin:auto}.dpad .gE svg,.dpad .gD svg{width:24px;height:24px}.dpad .play{background:var(--teal);color:var(--creme);border-radius:50%;grid-area:2/2}@media (hover:hover) and (pointer:fine){.dpad button:hover{transform:translateY(-3px)}}.barra{background:#0e4650d9;border-radius:99px;align-items:center;gap:10px;width:min(560px,100%);padding:8px 14px;font-size:12px;font-weight:800;display:flex;box-shadow:0 8px 20px #00000047}.trilha{background:#fff4dc40;border-radius:99px;flex:1;height:8px;position:relative}.trilha i{background:var(--amarelo);border-radius:99px;width:0;transition:width .6s;position:absolute;top:0;bottom:0;left:0}.trilha em{background:var(--creme);cursor:pointer;border-radius:50%;width:12px;height:12px;margin:-6px 0 0 -6px;position:absolute;top:50%}.trilha em.feito{background:var(--amarelo)}.dica{z-index:7;background:var(--creme);color:var(--petroleo);text-align:center;border-radius:16px;max-width:90vw;padding:10px 16px;font-size:14px;font-weight:700;transition:opacity .5s;position:fixed;bottom:46%;left:50%;transform:translate(-50%);box-shadow:0 10px 24px #0000004d}.dica.some{opacity:0;pointer-events:none}.aviso{left:14px;bottom:max(14px, env(safe-area-inset-bottom));z-index:6;background:#0e4650d9;border-radius:14px;max-width:260px;padding:10px 12px;font-size:12px;line-height:1.4;position:fixed}.aviso b{color:var(--amarelo)}.carrega{z-index:20;background:var(--petroleo);place-items:center;transition:opacity .6s;display:grid;position:fixed;inset:0}.carrega img{width:180px;animation:1.2s ease-in-out infinite pula}.carrega p{text-align:center;margin:12px 0 0;font-weight:800}.carrega.foi{opacity:0;pointer-events:none}@keyframes pula{50%{transform:translateY(-10px)rotate(-3deg)}}@media (min-width:761px){.controles{flex-direction:row;justify-content:space-between;align-items:flex-end}.barra{order:0;margin-bottom:8px}.dpad{order:1}.aviso{bottom:76px}}@media (max-width:760px){.marca b{font-size:17px}.marca small{display:none}.marca img{width:38px;height:38px}.bt span{display:none}.bt{padding:0 13px}.legenda{top:74px}.mapa{width:104px;height:118px;top:auto;bottom:236px;right:10px}.dpad{grid-template-rows:repeat(3,58px);grid-template-columns:repeat(3,58px)}.aviso{display:none}.dica{bottom:260px}}@media (prefers-reduced-motion:reduce){.carrega img,.legenda.troca b{animation:none}}</style>
+  <script type="module" crossorigin src="./passeio-D43syK0o.js"></script>
+  <link rel="modulepreload" crossorigin href="./three.module-Bmh-6qQy.js">
+</head>
+<body>
+<canvas class="cena" aria-label="Passeio 360° pela Doce Nuvem: arraste para olhar em volta e use as setas para andar"></canvas>
+<div class="vinheta" aria-hidden="true"></div>
+<div class="faixa faixa--cima" aria-hidden="true"></div><div class="faixa faixa--baixo" aria-hidden="true"></div>
+
+<header class="topo">
+  <a class="marca" href="./" aria-label="Voltar para o site da Doce Nuvem">
+    <img src="./logo-192.png" alt="" />
+    <span><b>doce nuvem</b><small>Passeio 360°</small></span>
+  </a>
+  <nav class="acoes" aria-label="Ações">
+    <a class="bt bt--creme" href="https://www.google.com/maps/place/DOCE+NUVEM+SORVETERIA/@-23.5534195,-51.4601458,17z/data=!4m6!3m5!1s0x94ec994c756b9057:0x3eea9e1a89456dc!8m2!3d-23.5534195!4d-51.4601458!16s%2Fg%2F11yqh89zhp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span>Como chegar</span></a>
+    <a class="bt" href="https://wa.me/5543996713208?text=Oi%2C%20Doce%20Nuvem!" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 .2A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.6A11.8 11.8 0 1 0 12 .2zm0 21.6c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm5.5-7.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.5.7.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4z"/></svg><span>WhatsApp</span></a>
+  </nav>
+</header>
+
+<div class="legenda" aria-live="polite"><b></b><span></span></div>
+<div class="mapa" aria-label="Mapa do passeio"><svg viewBox="0 0 150 170"></svg></div>
+
+<div class="dica" id="dica">Use as setas para andar ▲ ▼ ◀ ▶ · ou aperte ▶ no meio para o passeio automático</div>
+
+<div class="controles">
+  <div class="dpad" role="group" aria-label="Andar pela sorveteria">
+    <button class="gE" type="button" aria-label="Virar para a esquerda" data-gira="-1"><svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg></button>
+    <button class="fr" type="button" aria-label="Andar para frente" data-anda="0"><svg viewBox="0 0 24 24"><path d="M12 4l8 9h-5v7H9v-7H4z"/></svg></button>
+    <button class="gD" type="button" aria-label="Virar para a direita" data-gira="1"><svg viewBox="0 0 24 24"><path d="M12 5V1l5 5-5 5V7a6 6 0 1 0 6 6h2a8 8 0 1 1-8-8z"/></svg></button>
+    <button class="es" type="button" aria-label="Ir para a esquerda" data-anda="-90"><svg viewBox="0 0 24 24"><path d="M4 12l9-8v5h7v6h-7v5z"/></svg></button>
+    <button class="play" type="button" aria-label="Passeio automático"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <button class="di" type="button" aria-label="Ir para a direita" data-anda="90"><svg viewBox="0 0 24 24"><path d="M20 12l-9 8v-5H4V9h7V4z"/></svg></button>
+    <button class="tr" type="button" aria-label="Voltar para trás" data-anda="180"><svg viewBox="0 0 24 24"><path d="M12 20l-8-9h5V4h6v7h5z"/></svg></button>
+  </div>
+  <div class="barra"><span>Início</span><div class="trilha"><i></i></div><span>Fim</span></div>
+</div>
+
+<div class="aviso">Passeio gravado no <b>endereço anterior</b>. Agora estamos na Rua Rio Branco, 517 · Centro · Apucarana-PR.</div>
+
+<div class="carrega"><div><img src="./logo.webp" alt="Doce Nuvem" /><p>Preparando o passeio…</p></div></div>
+
+</body>
+</html>

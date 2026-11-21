@@ -14,8 +14,9 @@
   <script>
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('is-reduced');
   </script>
-  <script type="module" crossorigin src="./index-DYuGIR1P.js"></script>
-  <link rel="stylesheet" crossorigin href="./index-DGF-PsGj.css">
+  <script type="module" crossorigin src="./main-C1ABf85q.js"></script>
+  <link rel="modulepreload" crossorigin href="./three.module-Bmh-6qQy.js">
+  <link rel="stylesheet" crossorigin href="./main-CUDdBBnR.css">
 </head>
 <body>
   <canvas class="abertura" aria-hidden="true"></canvas>
@@ -150,16 +151,16 @@
 
     <section class="tour" id="tour" aria-labelledby="tour-titulo">
   <div class="tour__card">
-    <a class="tour__janela" href="tour.html" aria-label="Abrir o tour virtual 360° da Doce Nuvem">
+    <a class="tour__janela" href="passeio.html" aria-label="Abrir o tour virtual 360° da Doce Nuvem">
       <span class="tour__faixa" style="background-image:url('tour-capa.webp')"></span>
       <span class="tour__selo" aria-hidden="true">360°</span>
       <span class="tour__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
     </a>
     <div class="tour__texto">
       <h2 class="tour__titulo" id="tour-titulo"><span class="l">VEM CONHECER</span> <span class="l">EM 360°</span></h2>
-      <p class="tour__txt">Passeie pelo nosso cantinho sem sair de casa: o terraço, o salão, a vitrine de sorvetes e o espaço kids.</p>
+      <p class="tour__txt">Ande pela sorveteria como num vídeo: pra frente, pra trás e pros lados, do terraço à vitrine de sorvetes e ao espaço kids.</p>
       <p class="tour__nota">Tour gravado no endereço anterior. O espaço novo, na Rua Rio Branco, 517, ganha tour em breve.</p>
-      <a class="botao botao--creme" href="tour.html">Abrir o tour 360°</a>
+      <div class="tour__botoes"><a class="botao botao--creme" href="passeio.html">Passear como num vídeo</a> <a class="botao botao--linha" href="tour.html">Tour 360° clássico</a></div>
     </div>
   </div>
 </section>
