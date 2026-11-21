@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Tour virtual 360° · Doce Nuvem Sorveteria</title>
+<meta name="description" content="Passeie em 360° pela Doce Nuvem Sorveteria, em Apucarana-PR." />
+<meta name="theme-color" content="#17807c" />
+<link rel="icon" href="favicon.svg" />
+<link rel="stylesheet" href="pannellum.css" />
+<style>
+  @font-face { font-family: 'Bagel Fat One'; src: url('bagel-fat-one-latin-400.woff2') format('woff2'); font-display: swap; }
+  :root { --amarelo: #ffc12e; --teal: #17807c; --petroleo: #0e4650; --creme: #fff4dc; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--petroleo); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: var(--creme); overflow: hidden; }
+  #pano { position: fixed; inset: 0; }
+  .pnlm-container { background: var(--petroleo) !important; font-family: inherit; }
+  .pnlm-load-box { background: var(--teal); border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  .pnlm-lbar-fill { background: var(--amarelo); }
+  .pnlm-lbar { border-color: var(--creme); }
+  .pnlm-controls { background-color: var(--creme); border: 0; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
+  .pnlm-controls-container { top: auto; bottom: 150px; left: auto; right: 14px; }
+  .pnlm-about-msg, .pnlm-title-box, .pnlm-panorama-info { display: none !important; }
+
+  /* topo */
+  .topo { position: fixed; left: 0; right: 0; top: 0; z-index: 5; display: flex; align-items: center; gap: 12px; justify-content: space-between;
+    padding: max(12px, env(safe-area-inset-top)) 14px 12px; pointer-events: none; }
+  .topo > * { pointer-events: auto; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--creme);
+    background: var(--teal); padding: 8px 16px 8px 8px; border-radius: 99px; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+  .marca img { width: 38px; height: 38px; }
+  .marca b { font-family: 'Bagel Fat One', system-ui; font-weight: 400; font-size: 22px; line-height: 1; color: var(--creme); }
+  .marca small { display: block; font-size: 11px; letter-spacing: .08em; opacity: .85; text-transform: uppercase; }
+  .acoes { display: flex; gap: 8px; }
+  .bt { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 99px; border: 0; cursor: pointer;
+    background: var(--amarelo); color: var(--petroleo); font-weight: 800; font-size: 14px; text-decoration: none; box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    transition: transform .2s cubic-bezier(.34,1.56,.64,1); -webkit-tap-highlight-color: transparent; }
+  .bt--creme { background: var(--creme); }
+  .bt svg { width: 18px; height: 18px; fill: currentColor; }
+  @media (hover: hover) and (pointer: fine) { .bt:hover { transform: translateY(-2px) rotate(-2deg); } }
+  .bt:focus-visible, .cena:focus-visible, .marca:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; }
+
+  /* nome da cena */
+  .nome { position: fixed; left: 50%; top: 74px; transform: translateX(-50%); z-index: 4; pointer-events: none;
+    font-family: 'Bagel Fat One', system-ui; font-size: 26px; color: var(--creme); text-shadow: 0 3px 0 var(--petroleo), 0 6px 18px rgba(0,0,0,.4);
+    white-space: nowrap; transition: opacity .4s; }
+
+  /* aviso do endereço */
+  .aviso { position: fixed; left: 14px; top: 76px; z-index: 6; max-width: 330px; background: var(--creme); color: var(--petroleo);
+    border-radius: 20px; padding: 14px 16px 14px; box-shadow: 0 10px 26px rgba(0,0,0,.28); font-size: 14px; line-height: 1.4; }
+  .aviso strong { display: block; font-size: 15px; margin-bottom: 4px; }
+  .aviso .fecha { position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent;
+    color: var(--petroleo); font-size: 20px; cursor: pointer; }
+  .aviso a { color: var(--teal); font-weight: 800; }
+  .aviso[hidden] { display: none; }
+
+  /* trilho de cenas */
+  .trilho { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; padding: 10px 14px max(14px, env(safe-area-inset-bottom));
+    display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; background: linear-gradient(transparent, rgba(14,70,80,.85)); }
+  .trilho::-webkit-scrollbar { display: none; }
+  .cena { flex: 0 0 auto; width: 132px; border: 0; padding: 0; background: var(--creme); border-radius: 16px; overflow: hidden; cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0,0,0,.3); transition: transform .25s cubic-bezier(.34,1.56,.64,1); text-align: left; color: var(--petroleo);
+    -webkit-tap-highlight-color: transparent; }
+  .cena img { display: block; width: 100%; height: 78px; object-fit: cover; }
+  .cena span { display: block; padding: 6px 10px 8px; font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cena.ativa { background: var(--amarelo); transform: translateY(-4px); }
+  @media (hover: hover) and (pointer: fine) { .cena:hover { transform: translateY(-4px) rotate(-1.5deg); } }
+
+  /* hotspots */
+  .ponto { width: 56px; height: 56px; margin: -28px 0 0 -28px; cursor: pointer; }
+  .ponto .bola { position: absolute; inset: 0; border-radius: 50%; background: var(--amarelo); border: 4px solid var(--creme);
+    box-shadow: 0 6px 18px rgba(0,0,0,.35); display: grid; place-items: center; animation: pulsa 2.2s ease-in-out infinite; }
+  .ponto .bola svg { width: 24px; height: 24px; fill: var(--petroleo); }
+  .ponto .rot { position: absolute; left: 50%; bottom: 64px; transform: translateX(-50%); white-space: nowrap; background: var(--petroleo); color: var(--creme);
+    font-weight: 800; font-size: 13px; padding: 6px 12px; border-radius: 99px; box-shadow: 0 6px 14px rgba(0,0,0,.3); }
+  @keyframes pulsa { 0%,100% { box-shadow: 0 0 0 0 rgba(255,193,46,.6), 0 6px 18px rgba(0,0,0,.35); } 50% { box-shadow: 0 0 0 14px rgba(255,193,46,0), 0 6px 18px rgba(0,0,0,.35); } }
+  @media (prefers-reduced-motion: reduce) { .ponto .bola { animation: none; } }
+
+  @media (max-width: 640px) {
+    .marca b { font-size: 18px; } .marca small { display: none; } .marca img { width: 32px; height: 32px; }
+    .bt span { display: none; } .bt { padding: 0 13px; }
+    .aviso { left: 10px; right: 10px; max-width: none; top: auto; bottom: 132px; font-size: 13px; }
+    .nome { top: 70px; font-size: 21px; }
+    .cena { width: 112px; } .cena img { height: 64px; }
+    .pnlm-controls-container { bottom: 128px; }
+  }
+</style>
+</head>
+<body>
+<div id="pano" role="application" aria-label="Tour virtual 360°: arraste para olhar em volta"></div>
+
+<header class="topo">
+  <a class="marca" href="./" aria-label="Voltar para o site da Doce Nuvem">
+    <img src="favicon.svg" alt="" />
+    <span><b>doce nuvem</b><small>Tour virtual 360°</small></span>
+  </a>
+  <nav class="acoes" aria-label="Ações">
+    <a class="bt bt--creme" href="https://www.google.com/maps/place/DOCE+NUVEM+SORVETERIA/@-23.5534195,-51.4601458,17z/data=!4m6!3m5!1s0x94ec994c756b9057:0x3eea9e1a89456dc!8m2!3d-23.5534195!4d-51.4601458!16s%2Fg%2F11yqh89zhp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span>Como chegar</span></a>
+    <a class="bt" href="https://wa.me/5543996713208?text=Oi%2C%20Doce%20Nuvem!" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.5.7.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm0-21.6A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.6A11.8 11.8 0 1 0 12 .2z"/></svg><span>WhatsApp</span></a>
+  </nav>
+</header>
+
+<p class="nome" aria-live="polite"></p>
+
+<aside class="aviso" id="aviso">
+  <button class="fecha" type="button" aria-label="Fechar aviso">×</button>
+  <strong>Mudamos de endereço!</strong>
+  Este tour foi gravado no endereço anterior. Agora a Doce Nuvem fica na <b>Rua Rio Branco, 517 · Centro · Apucarana-PR</b>, em frente ao Hospital da Providência. Seg a sex, 8h30 às 18h.
+</aside>
+
+<nav class="trilho" aria-label="Ambientes do tour"></nav>
+
+<script src="pannellum.js"></script>
+<script>
+  // yaw/pitch de cada cena; hotspots levam de um ambiente a outro
+  const CENAS = {
+    s25: { nome: 'Terraço', yaw: 0, quadro: 25, pontos: [{ yaw: 3, pitch: -6, para: 's26', rot: 'Entrada' }] },
+    s26: { nome: 'Fachada', yaw: -5, quadro: 26, pontos: [{ yaw: -3, pitch: -8, para: 's27', rot: 'Entrar' }, { yaw: -125, pitch: -10, para: 's25', rot: 'Terraço' }] },
+    s27: { nome: 'Salão', yaw: -60, quadro: 27, pontos: [{ yaw: -100, pitch: -8, para: 's28', rot: 'Jardim vertical' }, { yaw: -35, pitch: -10, para: 's29', rot: 'Vitrine de sorvetes' }, { yaw: 95, pitch: -6, para: 's26', rot: 'Saída' }, { yaw: 160, pitch: -10, para: 's31', rot: 'Espaço kids' }] },
+    s28: { nome: 'Jardim vertical', yaw: 5, quadro: 28, pontos: [{ yaw: 135, pitch: -8, para: 's29', rot: 'Vitrine de sorvetes' }, { yaw: -110, pitch: -10, para: 's31', rot: 'Espaço kids' }, { yaw: 160, pitch: -6, para: 's27', rot: 'Salão' }] },
+    s29: { nome: 'Vitrine de sorvetes', yaw: -5, pitch: -16, quadro: 29, pontos: [{ yaw: -120, pitch: -8, para: 's28', rot: 'Jardim vertical' }, { yaw: 95, pitch: -6, para: 's26', rot: 'Saída' }, { yaw: 150, pitch: -10, para: 's30', rot: 'Balcão' }] },
+    s30: { nome: 'Balcão', yaw: -20, pitch: -10, quadro: 30, pontos: [{ yaw: 90, pitch: -6, para: 's29', rot: 'Vitrine de sorvetes' }, { yaw: 140, pitch: -10, para: 's27', rot: 'Salão' }, { yaw: -175, pitch: -10, para: 's31', rot: 'Espaço kids' }] },
+    s31: { nome: 'Espaço kids', yaw: 110, quadro: 31, pontos: [{ yaw: -170, pitch: -8, para: 's28', rot: 'Jardim vertical' }, { yaw: -10, pitch: -8, para: 's27', rot: 'Salão' }, { yaw: -95, pitch: -10, para: 's29', rot: 'Vitrine de sorvetes' }] },
+  };
+  const ORDEM = ['s25', 's26', 's27', 's28', 's29', 's30', 's31'];
+  const SETA = '<svg viewBox="0 0 24 24"><path d="M12 3l7 8h-4.5v10h-5V11H5z"/></svg>';
+
+  function ponto(div, p) {
+    div.classList.add('ponto');
+    div.innerHTML = `<span class="bola">${SETA}</span><span class="rot">${p.rot}</span>`;
+    div.setAttribute('role', 'button');
+    div.setAttribute('aria-label', 'Ir para ' + p.rot);
+  }
+
+  const scenes = {};
+  for (const id of ORDEM) {
+    const c = CENAS[id];
+    scenes[id] = {
+      type: 'equirectangular', panorama: `tour-${c.quadro}.jpg`, yaw: c.yaw, pitch: c.pitch ?? -6, hfov: 105,
+      hotSpots: c.pontos.map((p) => ({ yaw: p.yaw, pitch: p.pitch, type: 'scene', sceneId: p.para, cssClass: 'ponto-wrap', createTooltipFunc: ponto, createTooltipArgs: p })),
+    };
+  }
+
+  const viewer = pannellum.viewer('pano', {
+    default: { firstScene: 's25', sceneFadeDuration: 900, autoLoad: true, autoRotate: -1.6, autoRotateInactivityDelay: 6000, minHfov: 50, maxHfov: 120, showFullscreenCtrl: true, compass: false },
+    scenes,
+  });
+
+  const nome = document.querySelector('.nome');
+  const trilho = document.querySelector('.trilho');
+  for (const id of ORDEM) {
+    const c = CENAS[id];
+    const b = document.createElement('button');
+    b.className = 'cena'; b.type = 'button'; b.dataset.id = id;
+    b.innerHTML = `<img src="tour-mini-${c.quadro}.jpg" alt="" loading="lazy" /><span>${c.nome}</span>`;
+    b.addEventListener('click', () => viewer.loadScene(id));
+    trilho.append(b);
+  }
+  function marca(id) {
+    nome.textContent = CENAS[id].nome;
+    trilho.querySelectorAll('.cena').forEach((b) => b.classList.toggle('ativa', b.dataset.id === id));
+    trilho.querySelector('.cena.ativa')?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+  viewer.on('scenechange', marca);
+  marca('s25');
+
+  const aviso = document.getElementById('aviso');
+  aviso.querySelector('.fecha').addEventListener('click', () => { aviso.hidden = true; });
+  setTimeout(() => { aviso.hidden = true; }, 14000);
+</script>
+</body>
+</html>
